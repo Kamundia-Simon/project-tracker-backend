@@ -46,7 +46,9 @@ This is folder name is a placeholder — rename freely once a real name is picke
 
 ## Repository layout
 
-Two independent git repos as sibling folders, same pattern as `Cpi-Dashboard` — no top-level repo ties them together, each has its own `.env` at its own root:
+**One repository** (restructured 2026-10-23), with `backend/` and `frontend/` as directories beside `docs/` and this file. It started as two sibling repos copied from `Cpi-Dashboard`'s pattern, which broke the moment they were pushed: `CLAUDE.md` and `docs/` sat above both, so cloning either repo lost every ADR and standard the work depends on. A monorepo also matches how the work actually lands — a checklist rule or a token change touches both halves in one go, and two repos would make that two PRs that can merge out of step.
+
+Each half still keeps its own `.env` and its own `.gitignore`; Vercel and Railway both deploy from a subdirectory, so nothing about hosting requires the split.
 
 - `backend/` — FastAPI + SQLAlchemy + Alembic. Foundation complete: `database.py`, `models.py` (14 Phase 1 tables), `schemas.py`, `constants.py` (static business vocabulary), `alembic/` wired to `Base.metadata`, plus `main.py`, `auth.py`, `dependencies.py`, `rate_limit.py`, `cache.py`. Five migrations applied against a local Docker MariaDB on host port `33306` (initial schema, `user_roles`, `survey_type`, `project_markets`/`change_requests`, UTC timestamps + `client_link_eta`); the company schema `dbtracker` now exists as the eventual target, reached by swapping `DB_URL` and re-running `alembic upgrade head`.
   - `project_markets` and `change_requests` are **schema ahead of endpoints** — the tables exist so the expensive migration happens before the history-bearing tables fill up, but the routes land in the slices that need them (markets in 3/6/7, change requests late in Phase 1). See `architecture.md` §16–§17 and ADRs 0009/0010.

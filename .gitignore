@@ -1,16 +1,15 @@
-.env
-.env.*
-!.env.example
+# Root-level ignores. backend/ and frontend/ keep their own .gitignore files,
+# which git still reads for their subtrees.
 
-__pycache__/
-*.py[cod]
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
+# Scratch material that lives at the root while working — references, screenshots,
+# WhatsApp exports. Anything worth keeping belongs in docs/assets/.
+*.jpeg
+*.jpg
+*.png
+*.mp4
+!docs/assets/**
 
-venv/
-.venv/
+demo/
 
 .DS_Store
 Thumbs.db

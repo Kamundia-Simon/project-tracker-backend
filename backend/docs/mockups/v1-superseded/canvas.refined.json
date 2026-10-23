@@ -1,0 +1,75 @@
+{
+  "v": 3,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-15T19:40:00Z"
+  },
+  "title": "Project Tracker UI \u2014 refined light/dark demo",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.refined.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1360,
+      "h": 900,
+      "title": "Dashboard \u2014 refined",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "ProjectDetail.refined.dc.html": {
+      "x": 1440,
+      "y": 0,
+      "w": 1360,
+      "h": 1040,
+      "title": "Project detail \u2014 refined",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "MobileQueue.refined.dc.html": {
+      "x": 2880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Project pool \u2014 refined mobile",
+      "is_interactive": true
+    }
+  },
+  "order": [
+    "Main.refined.dc.html",
+    "ProjectDetail.refined.dc.html",
+    "MobileQueue.refined.dc.html"
+  ],
+  "notes": {
+    "hdr": {
+      "x": 0,
+      "y": -300,
+      "text": "Project Tracker \u2014 neutral light/dark system",
+      "kind": "title1",
+      "maxW": 3270
+    },
+    "n1": {
+      "x": 0,
+      "y": 960,
+      "w": 600,
+      "text": "Neutral surfaces replace ambient blue. Amber is reserved for brand/focus; status colours remain semantic. Motion communicates loading, progress and state change rather than decoration.",
+      "fill": "gray"
+    },
+    "n2": {
+      "x": 1440,
+      "y": 1100,
+      "w": 600,
+      "text": "Project detail keeps the operational hierarchy but uses restrained surfaces, animated progress, loading actions and a persistent light/dark theme toggle.",
+      "fill": "gray"
+    },
+    "n3": {
+      "x": 2880,
+      "y": 904,
+      "w": 390,
+      "text": "Mobile uses the same neutral design language, bottom navigation, staged card entrance and button loading feedback.",
+      "fill": "gray"
+    }
+  }
+}

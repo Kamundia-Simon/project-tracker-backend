@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Project Pool — Mobile Ops</title><script src="./support.js"></script></head>
+<body><x-dc>
+<div class="boot-loader" id="boot-loader" aria-label="Loading interface" aria-live="polite">
+  <div class="boot-card">
+    <div class="skeleton sk-title"></div>
+    <div class="skeleton sk-line"></div>
+    <div class="skeleton sk-line short"></div>
+    <div class="boot-grid"><div class="skeleton sk-block"></div><div class="skeleton sk-block"></div><div class="skeleton sk-block"></div></div>
+  </div>
+</div>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+
+:root{color-scheme:light;--bg:#f6f6f4;--surface:#fff;--surface-2:#fafaf8;--surface-3:#f1f1ee;--line:#e4e4df;--line-strong:#d4d4cd;--text:#171715;--muted:#62625d;--faint:#92928b;--accent:#d9a72e;--green:#21875b;--amber:#a96500;--red:#c33d49;--blue:#3972b8;--shadow:0 8px 22px rgba(24,24,20,.055);--topbar:rgba(255,255,255,.91)}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#11110f;--surface:#191917;--surface-2:#1e1e1b;--surface-3:#262622;--line:#30302c;--line-strong:#3d3d37;--text:#f2f2ed;--muted:#b1b1a8;--faint:#7d7d74;--accent:#e3b441;--green:#55b98a;--amber:#dda84c;--red:#df6b74;--blue:#78a2d6;--shadow:0 10px 28px rgba(0,0,0,.2);--topbar:rgba(25,25,23,.92)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}body{font-size:14px;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}button{font:inherit}.phone{width:390px;height:844px;overflow:hidden;display:flex;flex-direction:column;position:relative;background:var(--bg)}.top{height:64px;flex:none;display:flex;align-items:center;gap:3px;padding:8px 8px;border-bottom:1px solid var(--line);background:var(--topbar);backdrop-filter:blur(16px);z-index:2}.ib{width:42px;height:42px;border:0;background:transparent;color:var(--muted);border-radius:10px;display:grid;place-items:center;transition:background .15s,color .15s,transform .15s}.ib:active{background:var(--surface-3);color:var(--text);transform:scale(.96)}.title{flex:1;min-width:0}.title small{display:block;color:var(--faint);font:600 9px "IBM Plex Mono";letter-spacing:.11em;text-transform:uppercase;margin-bottom:2px}.title h1{font-size:15.5px;margin:0;letter-spacing:-.02em}.notify{position:relative}.notify:after{content:"";position:absolute;top:9px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+.summary{margin:12px 12px 9px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);animation:card-in .32s ease both}.summary-head{display:flex;align-items:center;justify-content:space-between}.summary b{font:500 24px "IBM Plex Mono";letter-spacing:-.05em}.summary span{color:var(--muted);font-size:11px}.signal{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;color:var(--green)}.signal i{width:6px;height:6px;border-radius:50%;background:var(--green);animation:soft-pulse 2.8s ease-in-out infinite}.summary p{margin:4px 0 0;color:var(--faint);font-size:10.5px}.filters{display:flex;gap:7px;overflow:auto;padding:0 12px 10px;scrollbar-width:none;z-index:1}.filters::-webkit-scrollbar{display:none}.chip{flex:none;height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:11px;transition:transform .15s,background .15s,border-color .15s}.chip:active{transform:scale(.97)}.chip[aria-pressed=true]{color:#201700;background:var(--accent);border-color:var(--accent);font-weight:700}.list{flex:1;overflow-y:auto;padding:0 10px 108px;z-index:1}.card{display:block;margin:0 2px 9px;padding:13px 13px 12px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .15s,border-color .15s,background .15s;animation:card-in .34s cubic-bezier(.2,.7,.2,1) both}.card:nth-child(2){animation-delay:.04s}.card:nth-child(3){animation-delay:.08s}.card:nth-child(4){animation-delay:.12s}.card:active{transform:scale(.992);border-color:var(--line-strong);background:var(--surface-2)}.card:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:5px;background:var(--blue)}.card.warn:before{background:var(--amber)}.toprow{display:flex;gap:10px;align-items:flex-start}.content{min-width:0;flex:1}.rdr{font:9.5px "IBM Plex Mono";color:var(--faint);letter-spacing:.04em}.name{font-size:13.5px;font-weight:650;line-height:1.28;margin:4px 0 3px}.client{font-size:10.5px;color:var(--faint)}.claim{width:62px;height:38px;border-radius:10px;border:1px solid var(--line-strong);background:var(--text);color:var(--bg);font-size:11px;font-weight:700;flex:none;transition:transform .15s,opacity .15s}.claim:active{transform:scale(.96)}.meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}.meta>div{border:1px solid var(--line);border-radius:9px;padding:7px 8px;background:var(--surface-2)}.meta label{display:block;color:var(--faint);font-size:9px;text-transform:uppercase;letter-spacing:.07em}.meta b{display:block;font-size:10.5px;margin-top:2px;font-weight:600}.status{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:9.5px;color:var(--blue)}.status i{width:5px;height:5px;border-radius:50%;background:currentColor}.status.amber{color:var(--amber)}.status em{font-style:normal;color:var(--faint);padding-left:7px;border-left:1px solid var(--line);margin-left:4px}.nav{position:absolute;left:10px;right:10px;bottom:10px;height:68px;padding:7px;border:1px solid var(--line);border-radius:18px;background:var(--topbar);backdrop-filter:blur(18px);display:flex;z-index:4;box-shadow:var(--shadow)}.nav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--faint);font-size:9px;border-radius:12px;transition:background .15s,color .15s,transform .15s}.nav a:active{transform:scale(.96)}.nav a[aria-current=page]{color:var(--text);background:var(--surface-3)}.nav a[aria-current=page]:after{content:"";position:absolute;margin-top:43px;width:14px;height:2px;border-radius:4px;background:var(--accent)}.nav svg{width:18px;height:18px}
+.boot-loader{position:absolute;inset:0;z-index:20;background:var(--bg);display:grid;place-items:center;transition:opacity .24s ease,visibility .24s ease}.boot-loader.is-hidden{opacity:0;visibility:hidden}.boot-card{width:calc(100% - 28px);padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:var(--shadow)}.skeleton{position:relative;overflow:hidden;background:var(--surface-3);border-radius:7px}.skeleton:after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--text) 8%,transparent),transparent);animation:shimmer 1.2s infinite}.sk-title{height:18px;width:48%}.sk-line{height:9px;width:72%;margin-top:11px}.sk-line.short{width:56%}.boot-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px}.sk-block{height:68px}.button-spinner{width:13px;height:13px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .65s linear infinite}.is-loading{pointer-events:none;opacity:.78}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes shimmer{100%{transform:translateX(100%)}}@keyframes soft-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}@keyframes card-in{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+</style></helmet>
+<div class="phone">
+  <header class="top"><button class="ib" aria-label="Open navigation"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 7h16M4 12h12M4 17h8"/></svg></button><div class="title"><small>Intake queue</small><h1>Project pool</h1></div><button class="ib" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button><button class="ib" data-theme-toggle aria-label="Switch theme"></button><button class="ib notify" aria-label="Notifications"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/></svg></button></header>
+  <section class="summary"><div class="summary-head"><div><b>11</b> <span>unclaimed projects</span></div><div class="signal"><i></i>Queue healthy</div></div><p>Oldest waiting 1d 18h · 4 due within 14 days</p></section>
+  <div class="filters"><button class="chip" aria-pressed="true">All · 11</button><button class="chip">Nat Rep</button><button class="chip">Multi-country</button><button class="chip">B2B</button><button class="chip">Due soon</button></div>
+  <main class="list">
+    <article class="card"><div class="toprow"><a class="content" href="ProjectDetail.refined.dc.html"><span class="rdr">RDR-2301</span><div class="name">Pet ownership omnibus</div><div class="client">Mars Petcare · Nat Rep / Gen-Pop</div></a><button class="claim" data-loading-action>Claim</button></div><div class="status"><i></i>Unassigned <em>PM assignment</em></div><div class="meta"><div><label>Delivery</label><b class="mono">28 OCT</b></div><div><label>Waiting</label><b class="mono">07H 12M</b></div></div></article>
+    <article class="card"><div class="toprow"><a class="content" href="ProjectDetail.refined.dc.html"><span class="rdr">RDR-2304</span><div class="name">Automotive purchase intent — UK/DE/FR/IT/ES</div><div class="client">Stellantis · Multi-country</div></a><button class="claim" data-loading-action>Claim</button></div><div class="status"><i></i>Unassigned <em>PM assignment</em></div><div class="meta"><div><label>Delivery</label><b class="mono">04 NOV</b></div><div><label>Markets</label><b>5 markets</b></div></div></article>
+    <article class="card warn"><div class="toprow"><a class="content" href="ProjectDetail.refined.dc.html"><span class="rdr">RDR-2299</span><div class="name">Energy tariff switching</div><div class="client">Octopus Energy</div></a><button class="claim" data-loading-action>Claim</button></div><div class="status amber"><i></i>Setup incomplete <em>Survey type missing</em></div><div class="meta"><div><label>Delivery</label><b style="color:var(--amber)">NOT SET</b></div><div><label>Waiting</label><b class="mono">1D 18H</b></div></div></article>
+    <article class="card"><div class="toprow"><a class="content" href="ProjectDetail.refined.dc.html"><span class="rdr">RDR-2298</span><div class="name">Private healthcare attitudes</div><div class="client">Bupa · Nat Rep</div></a><button class="claim" data-loading-action>Claim</button></div><div class="status"><i></i>Unassigned <em>PM assignment</em></div><div class="meta"><div><label>Delivery</label><b class="mono">30 OCT</b></div><div><label>Waiting</label><b class="mono">11H 04M</b></div></div></article>
+  </main>
+  <nav class="nav"><a href="Main.refined.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.4"/><rect x="14" y="3" width="7" height="4" rx="1.4"/><rect x="14" y="10" width="7" height="11" rx="1.4"/><rect x="3" y="13" width="7" height="8" rx="1.4"/></svg>Center</a><a href="MobileQueue.refined.dc.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Pool</a><a href="#my"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14v11H5zM9 8V5h6v3"/></svg>My work</a><a href="ProjectDetail.refined.dc.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.5"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>Live</a></nav>
+</div>
+</x-dc><script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>class Component extends DCLogic{renderVals(){return {};}}</script>
+<script>
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('pt-theme');
+  if(saved==='dark'||saved==='light') root.dataset.theme=saved;
+  else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme='dark';
+  const updateThemeButtons=()=>document.querySelectorAll('[data-theme-toggle]').forEach(btn=>{
+    const dark=root.dataset.theme==='dark';
+    btn.setAttribute('aria-label', dark?'Switch to light theme':'Switch to dark theme');
+    btn.setAttribute('title', dark?'Light theme':'Dark theme');
+    btn.innerHTML=dark
+      ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+      : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 15.2A8.5 8.5 0 1 1 8.8 4a7 7 0 0 0 11.2 11.2Z"/></svg>';
+  });
+  updateThemeButtons();
+  document.addEventListener('click',e=>{
+    const theme=e.target.closest('[data-theme-toggle]');
+    if(theme){
+      root.classList.add('theme-changing');
+      root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
+      localStorage.setItem('pt-theme',root.dataset.theme);
+      updateThemeButtons();
+      setTimeout(()=>root.classList.remove('theme-changing'),240);
+      return;
+    }
+    const loading=e.target.closest('[data-loading-action]');
+    if(loading && !loading.classList.contains('is-loading')){
+      e.preventDefault();
+      const original=loading.innerHTML;
+      loading.classList.add('is-loading');
+      loading.setAttribute('aria-busy','true');
+      loading.innerHTML='<span class="button-spinner" aria-hidden="true"></span><span>Working…</span>';
+      setTimeout(()=>{loading.classList.remove('is-loading');loading.removeAttribute('aria-busy');loading.innerHTML=original;},850);
+    }
+  });
+  window.addEventListener('load',()=>{
+    const loader=document.getElementById('boot-loader');
+    setTimeout(()=>{ if(loader){loader.classList.add('is-hidden');setTimeout(()=>loader.remove(),260);} },520);
+  });
+})();
+</script>
+
+</body></html>

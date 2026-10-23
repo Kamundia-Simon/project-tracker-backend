@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RDR-2291 — Project Tracker</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{color-scheme:light;--bg:#f6f6f4;--surface:#fff;--surface-2:#fafaf8;--surface-3:#f1f1ee;--line:#e4e4df;--line-strong:#d4d4cd;--text:#171715;--muted:#62625d;--faint:#70706a;--accent:#d9a72e;--accent-strong:#8f6200;--accent-ink:#201700;--green:#1b724d;--amber:#8f5600;--red:#bb3744;--blue:#305f99;--rail:#f1f1ee;--topbar:rgba(255,255,255,.88)}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#11110f;--surface:#191917;--surface-2:#1e1e1b;--surface-3:#262622;--line:#30302c;--line-strong:#3d3d37;--text:#f2f2ed;--muted:#b1b1a8;--faint:#8b8b82;--accent:#e3b441;--accent-strong:#f0c55b;--green:#55b98a;--amber:#dda84c;--red:#df6b74;--blue:#78a2d6;--rail:#151513;--topbar:rgba(25,25,23,.90)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}body{font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}ul,ol{list-style:none;margin:0;padding:0}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Tiles: one labelled-value pattern. a.tile is interactive; dl/div tiles are not. */
+.tilegroup{display:grid;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);margin:0}
+.tilegroup--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tilegroup--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tilegroup--4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tilegroup--5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tilegroup--flush{border:0;border-top:1px solid var(--line);border-radius:0;background:var(--surface-2)}
+.tilegroup--gap{border:0;border-radius:0;background:none;gap:8px;overflow:visible}
+.tile{padding:11px 14px 12px;border-right:1px solid var(--line);min-width:0}
+.tilegroup>.tile:last-child{border-right:0}
+.tilegroup--gap>.tile{border:1px solid var(--line);border-radius:9px;background:var(--surface-2);padding:9px 11px}
+.tile .k{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.tile .v{display:block;margin:2px 0 0;font-size:12.5px;font-weight:500;color:var(--text)}
+.tile .v.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.tile .v.good{color:var(--green)}.tile .v.warn{color:var(--amber)}.tile .v.bad{color:var(--red)}
+.tile--lg .v{font:500 21px "IBM Plex Mono";letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+a.tile{display:block;color:inherit;transition:background .14s ease}
+a.tile:hover{background:var(--surface-2)}
+a.tile:active{background:var(--surface-3)}
+/* Browser surfaces: selection, caret and scrollbars belong to the palette too. */
+::selection{background:color-mix(in srgb,var(--accent) 32%,transparent);color:var(--text)}
+input,textarea{caret-color:var(--accent-strong)}
+*{scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px;border:3px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-track{background:transparent}
+
+:focus-visible{outline:2px solid var(--accent-strong);outline-offset:2px}
+.shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;padding:16px 12px 12px;background:var(--rail);border-right:1px solid var(--line);display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;padding:0 10px 14px}.mark{width:28px;height:28px;border-radius:9px;background:var(--text);display:grid;place-items:center;flex:none}.mark:after{content:"";width:9px;height:9px;border:2px solid var(--accent);border-left-color:transparent;border-radius:50%}
+.brand b{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.navlabel{padding:16px 11px 6px;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:10px;min-height:36px;padding:0 10px;border-radius:9px;color:var(--muted);font-size:12.5px;position:relative;transition:background .14s ease,color .14s ease}
+.nav:hover{background:var(--surface);color:var(--text)}
+.nav[aria-current]{background:var(--surface);color:var(--text);font-weight:500;box-shadow:inset 0 0 0 1px var(--line)}
+.nav[aria-current]:before{content:"";position:absolute;left:-1px;width:2px;height:16px;border-radius:9px;background:var(--accent)}
+.count{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.me{margin-top:auto;display:flex;align-items:center;gap:9px;padding:12px 8px 2px;border-top:1px solid var(--line)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--surface-3);border:1px solid var(--line);display:grid;place-items:center;font:500 10px "IBM Plex Mono";flex:none}
+.me b{font-size:12px;font-weight:500;display:block}.me span{display:block;color:var(--muted);font-size:10.5px}
+.topbar{height:58px;position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;padding:0 24px;background:var(--topbar);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.crumb{font-size:12.5px;color:var(--faint);min-width:0}.crumb b{color:var(--text);font-weight:500}
+.ib--menu{display:none}
+.ib{width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:background .14s ease,border-color .14s ease,color .14s ease}
+.ib:hover{background:var(--surface-2);border-color:var(--line-strong);color:var(--text)}
+.btn{height:34px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--text);font:500 12.5px Inter;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:background .14s ease,border-color .14s ease}
+.btn:hover:not(:disabled){background:var(--surface-2);border-color:var(--line-strong)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.main{max-width:1240px;margin-inline:auto;padding:20px 24px 48px;display:flex;flex-direction:column;gap:16px}
+.hero{border:1px solid var(--line-strong);border-radius:16px;background:var(--surface);overflow:hidden}
+.hero-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;padding:16px 18px}
+.tags{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap}
+.code{font:11px "IBM Plex Mono";color:var(--muted);padding:2px 7px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2)}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;border:1px solid currentColor;font-size:10.5px;font-weight:500}
+.pill i{width:5px;height:5px;border-radius:50%;background:currentColor;flex:none}
+.pill--red{color:var(--red);background:color-mix(in srgb,var(--red) 7%,transparent)}
+.pill--amber{color:var(--amber);background:color-mix(in srgb,var(--amber) 7%,transparent)}
+.pill--green{color:var(--green);background:color-mix(in srgb,var(--green) 7%,transparent)}
+.pill--grey{color:var(--muted);background:var(--surface-3);border-color:var(--line-strong)}
+.pill--xs{font-size:10px;padding:1px 7px}
+h1{font-size:20px;font-weight:600;letter-spacing:-.02em;margin:0}
+.sub{margin:5px 0 0;color:var(--muted);font-size:12.5px}.sub b{color:var(--text);font-weight:500}
+.actions{display:flex;gap:7px;align-items:flex-start;flex-wrap:wrap;justify-content:flex-end}
+.panel{border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.ph{display:flex;align-items:center;gap:9px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.ph h2{margin:0;font-size:13px;font-weight:600}
+.ph .n{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted)}
+.ph .right{margin-left:auto;display:flex;align-items:center;gap:9px}
+.stamp{font-size:10.5px;color:var(--muted)}
+/* pipeline */
+.pipe{padding:14px 16px}
+.steps{display:flex;gap:4px;min-width:0;overflow-x:auto;padding-bottom:4px}
+.step{flex:1;min-width:84px;padding-top:16px;position:relative;font-size:10.5px;color:var(--muted)}
+.step:before{content:"";position:absolute;top:5px;left:13px;right:-4px;height:2px;background:var(--surface-3)}
+.step:after{content:"";position:absolute;top:1px;left:0;width:10px;height:10px;border:2px solid var(--line-strong);background:var(--surface);border-radius:50%}
+.step--done{color:var(--muted)}.step--done:before{background:var(--green)}.step--done:after{border-color:var(--green);background:var(--green)}
+.step--now{color:var(--text);font-weight:600}.step--now:before{background:var(--accent-strong)}
+.step--now:after{border-color:var(--accent-strong);background:var(--surface);border-radius:50%;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.step--block{color:var(--red)}.step--block:before{background:var(--surface-3)}
+.step--block:after{border-color:var(--red);background:var(--surface);border-radius:2px}
+.step--na{color:var(--muted)}.step--na:before{background:var(--surface-3)}
+.step--na:after{border-color:var(--line-strong);background:var(--surface-3);border-radius:2px;transform:rotate(45deg)}
+.step small{display:block;font:10px "IBM Plex Mono";color:var(--muted);margin-top:2px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:11px;border-top:1px solid var(--line)}
+.legend span{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted)}
+.lg{width:9px;height:9px;border:2px solid var(--line-strong);background:var(--surface);flex:none}
+.tabs{display:flex;gap:18px;border-bottom:1px solid var(--line)}
+.tab{padding:0 2px 10px;font-size:12.5px;color:var(--muted);border-bottom:2px solid transparent}
+.tab:hover{color:var(--text)}
+.tab[aria-current]{color:var(--text);font-weight:600;border-bottom-color:var(--accent)}
+.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,.82fr);gap:16px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+/* fieldwork */
+.field{padding:16px}
+.big{display:flex;align-items:baseline;gap:9px}
+.big strong{font:500 26px "IBM Plex Mono";letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.big span{color:var(--muted);font-size:12px}.big em{margin-left:auto;font:500 12.5px "IBM Plex Mono";font-style:normal}
+.progress{height:7px;border-radius:999px;background:var(--surface-3);overflow:hidden;margin:10px 0 14px}
+.progress i{display:block;height:100%;border-radius:999px;background:var(--green)}
+.progress i,.bar i,.track i{transition:width .3s ease-out}
+/* markets table */
+table{width:100%;border-collapse:collapse}
+caption{text-align:left;padding:0 16px 10px;font-size:11px;color:var(--muted)}
+th,td{text-align:left;padding:10px 16px;border-top:1px solid var(--line);font-size:12px}
+thead th{background:var(--surface-2);border-top:1px solid var(--line);font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+tbody tr:hover{background:var(--surface-2)}
+td b{font-size:12.5px;font-weight:500}
+td .mono{font-size:11.5px}
+/* checklist */
+.check{padding:13px 16px}
+.bar{height:5px;border-radius:999px;background:var(--surface-3);overflow:hidden;margin-bottom:11px}
+.bar i{display:block;height:100%;border-radius:999px;background:var(--green)}
+fieldset{border:0;margin:0;padding:0}
+legend{padding:0;font-size:11px;color:var(--muted);margin-bottom:6px}
+.item{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:12px}
+.item input{width:16px;height:16px;margin:1px 0 0;accent-color:var(--green);flex:none;cursor:pointer}
+.item label{cursor:pointer}
+.item input:checked+label{color:var(--muted);text-decoration:line-through}
+.note{margin:10px 0 0;font-size:11px;color:var(--muted);line-height:1.5}
+/* people + details */
+.people{padding:12px 16px}
+.person{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:9px;align-items:center;padding:6px 0}
+.person b{display:block;font-size:12px;font-weight:500}
+.person span{display:block;font-size:10.5px;color:var(--muted)}
+.kv{display:grid;grid-template-columns:minmax(90px,38%) 1fr;gap:8px 12px;margin:0;padding:13px 16px;font-size:12px}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+.kv dd.unset{color:var(--muted)}
+/* timeline */
+.tl{padding:13px 16px}
+.ev{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;padding:6px 0}
+.eic{width:24px;height:24px;border-radius:50%;background:var(--surface-3);border:1px solid var(--line);display:grid;place-items:center;font:500 10px "IBM Plex Mono"}
+.eic--sys{border-style:dashed;color:var(--muted)}
+.ev p{margin:0;font-size:12px}.ev p b{font-weight:500}
+.ev time{display:block;font:10px "IBM Plex Mono";color:var(--muted);margin-top:2px}
+@media(max-width:1439px){.main{max-width:none;margin-inline:0}}
+@media(max-width:1023px){.shell{display:block}.rail{display:none}.ib--menu{display:grid}.main{padding:16px 14px 40px}
+.hero-top{grid-template-columns:1fr}.actions{justify-content:flex-start}.actions .btn{height:40px}
+.tilegroup--4{grid-template-columns:1fr 1fr}.tilegroup--4>.tile:nth-child(2){border-right:0}
+.layout{grid-template-columns:1fr}.tilegroup--3{grid-template-columns:1fr 1fr}
+.steps{overflow-x:auto;padding-bottom:4px}.step{min-width:92px}
+.tabs{overflow-x:auto}
+.tablewrap{overflow-x:auto}table{min-width:560px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="brand"><div class="mark"></div><b>Project Tracker</b></div>
+    <div class="navlabel">Workflow</div>
+    <nav aria-label="Workflow">
+      <a class="nav" href="DashboardV2.dc.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="4" rx="1.5"/><rect x="14" y="10" width="7" height="11" rx="1.5"/><rect x="3" y="13" width="7" height="8" rx="1.5"/></svg>Dashboard</a>
+      <a class="nav" href="MobileQueueV2.dc.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg>Project pool<span class="count">11<span class="sr"> projects</span></span></a>
+      <a class="nav" href="#scripting"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 19V5l8-2 8 2v14l-8 2z"/></svg>Scripting<span class="count">4<span class="sr"> projects</span></span></a>
+      <a class="nav" href="#qa"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>QA<span class="count">3<span class="sr"> projects</span></span></a>
+      <a class="nav" href="#live" aria-current="page"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>Live / fieldwork<span class="count">6<span class="sr"> projects</span></span></a>
+      <a class="nav" href="#dp"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/></svg>Data processing<span class="count">2<span class="sr"> projects</span></span></a>
+      <a class="nav" href="#all"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 9v11"/></svg>All projects</a>
+    </nav>
+    <div class="navlabel">You</div>
+    <nav aria-label="Personal">
+      <a class="nav" href="#mywork"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 8h14v11H5zM9 8V5h6v3"/></svg>My work<span class="count">7<span class="sr"> projects</span></span></a>
+    </nav>
+    <div class="me"><div class="av" aria-hidden="true">RM</div><div><b>Rose M.</b><span>Head PM</span></div></div>
+  </aside>
+
+  <div style="min-width:0">
+    <header class="topbar">
+      <button class="ib ib--menu" aria-label="Open navigation"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <nav class="crumb" aria-label="Breadcrumb"><a href="#live">Live / fieldwork</a> <span aria-hidden="true">/</span> <b class="mono">RDR-2291</b></nav>
+      <div style="flex:1"></div>
+      <button class="ib" data-theme-toggle aria-label="Switch theme"></button>
+      <button class="ib" aria-label="Notifications, 3 unread"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg></button>
+      <button class="ib" aria-label="More actions"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+    </header>
+
+    <main class="main">
+      <section class="hero" aria-labelledby="p-title">
+        <div class="hero-top">
+          <div style="min-width:0">
+            <div class="tags">
+              <span class="code">RDR-2291</span>
+              <span class="pill pill--red"><i aria-hidden="true"></i>1 market late</span>
+              <span class="pill pill--grey"><i aria-hidden="true"></i>You are the PM</span>
+            </div>
+            <h1 id="p-title">Grocery habits tracker — DE/FR/NL</h1>
+            <p class="sub">Unilever · Nat Rep multi-country · PM <b>Rose M.</b> · merged delivery <b class="mono">24 Oct</b></p>
+          </div>
+          <div class="actions">
+            <button class="btn">Add market</button>
+            <button class="btn" disabled aria-describedby="why-disabled">Confirm delivered</button>
+            <button class="btn btn-primary"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Confirm soft launch</button>
+          </div>
+        </div>
+        <p id="why-disabled" style="margin:0;padding:0 18px 14px;font-size:11px;color:var(--muted)">Confirm delivered becomes available once every market is delivered.</p>
+        <dl class="tilegroup tilegroup--4 tilegroup--flush">
+          <div class="tile"><dt class="k">Current stage</dt><dd class="v">Live / fieldwork</dd></div>
+          <div class="tile"><dt class="k">Sub-status</dt><dd class="v">Soft launch, day 2</dd></div>
+          <div class="tile"><dt class="k">Markets</dt><dd class="v">1 delivered, 1 live, 1 in review</dd></div>
+          <div class="tile"><dt class="k">Health</dt><dd class="v warn">At risk — Germany</dd></div>
+        </dl>
+      </section>
+
+      <section class="panel" aria-labelledby="h-pipe">
+        <div class="ph"><h2 id="h-pipe">Progress</h2><span class="n">stage 6 of 9</span></div>
+        <div class="pipe">
+          <ol class="steps" tabindex="0" role="group" aria-label="Project stages, 6 of 9">
+            <li class="step step--done">PM assignment<small>2 Oct</small><span class="sr">(completed)</span></li>
+            <li class="step step--done">Scripting<small>6 Oct</small><span class="sr">(completed)</span></li>
+            <li class="step step--done">QA<small>9 Oct</small><span class="sr">(completed)</span></li>
+            <li class="step step--done">Client review<small>11 Oct</small><span class="sr">(completed)</span></li>
+            <li class="step step--done">Quotas<small>13 Oct</small><span class="sr">(completed)</span></li>
+            <li class="step step--now" aria-current="step">Live / fieldwork<small>day 2</small><span class="sr">(current stage)</span></li>
+            <li class="step step--block">Data processing<small>blocked</small><span class="sr">(blocked — waiting on German market)</span></li>
+            <li class="step">Ready for delivery<span class="sr">(not started)</span></li>
+            <li class="step step--na">Delivered<small>n/a yet</small><span class="sr">(not applicable yet)</span></li>
+          </ol>
+          <div class="legend">
+            <span><i class="lg" style="border-color:var(--green);background:var(--green);border-radius:50%" aria-hidden="true"></i>Completed</span>
+            <span><i class="lg" style="border-color:var(--accent-strong);border-radius:50%" aria-hidden="true"></i>Current</span>
+            <span><i class="lg" aria-hidden="true" style="border-radius:50%"></i>Not started</span>
+            <span><i class="lg" style="border-color:var(--red);border-radius:2px" aria-hidden="true"></i>Blocked</span>
+            <span><i class="lg" style="background:var(--surface-3);border-radius:2px;transform:rotate(45deg)" aria-hidden="true"></i>Not applicable</span>
+          </div>
+        </div>
+      </section>
+
+      <nav class="tabs" aria-label="Project sections">
+        <a class="tab" href="#overview" aria-current="page">Overview</a>
+        <a class="tab" href="#markets">Markets <span class="mono" style="color:var(--faint)">3</span></a>
+        <a class="tab" href="#checklists">Checklists</a>
+        <a class="tab" href="#activity">Activity</a>
+        <a class="tab" href="#details">Details</a>
+      </nav>
+
+      <div class="layout">
+        <div class="col">
+          <section class="panel" aria-labelledby="h-field">
+            <div class="ph">
+              <h2 id="h-field">Fieldwork progress</h2>
+              <div class="right">
+                <span class="pill pill--amber"><i aria-hidden="true"></i>Soft launch needs review</span>
+                <span class="stamp">Updated 11 min ago</span>
+              </div>
+            </div>
+            <div class="field">
+              <div class="big"><strong>412</strong><span>of <span class="mono">1,500</span> completes</span><em>27%</em></div>
+              <div class="progress" role="img" aria-label="412 of 1,500 completes, 27 percent"><i style="width:27%"></i></div>
+              <dl class="tilegroup tilegroup--3 tilegroup--gap">
+                <div class="tile"><dt class="k">Incidence</dt><dd class="v mono">38%</dd></div>
+                <div class="tile"><dt class="k">Drop-out</dt><dd class="v mono warn">14%</dd></div>
+                <div class="tile"><dt class="k">Field ends</dt><dd class="v mono">22 Oct</dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="h-mkt">
+            <div class="ph">
+              <h2 id="h-mkt">Markets</h2><span class="n">3</span>
+              <div class="right"><button class="btn" style="height:30px;font-size:12px">Update selected</button></div>
+            </div>
+            <div class="tablewrap" tabindex="0" role="group" aria-label="Markets table, scrolls horizontally"><table>
+              <caption>Each market carries its own due date; lateness is judged per market, not against the merged delivery.</caption>
+              <thead>
+                <tr><th scope="col">Market</th><th scope="col">Status</th><th scope="col">Due</th><th scope="col">Delivered</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Market"><b>United Kingdom</b> <span class="pill pill--grey pill--xs">Primary</span></td>
+                  <td data-label="Status"><span class="pill pill--green"><i aria-hidden="true"></i>Delivered</span></td>
+                  <td data-label="Due"><span class="mono">16 Oct</span></td>
+                  <td data-label="Delivered"><span class="mono" style="color:var(--green)">16 Oct</span></td>
+                </tr>
+                <tr>
+                  <td data-label="Market"><b>Germany</b></td>
+                  <td data-label="Status"><span class="pill pill--red"><i aria-hidden="true"></i>Live — late</span></td>
+                  <td data-label="Due"><span class="mono" style="color:var(--red)">20 Oct</span></td>
+                  <td data-label="Delivered"><span class="mono" style="color:var(--faint)">Not sent</span></td>
+                </tr>
+                <tr>
+                  <td data-label="Market"><b>Netherlands</b></td>
+                  <td data-label="Status"><span class="pill pill--amber"><i aria-hidden="true"></i>Client review</span></td>
+                  <td data-label="Due"><span class="mono">23 Oct</span></td>
+                  <td data-label="Delivered"><span class="mono" style="color:var(--faint)">Not sent</span></td>
+                </tr>
+              </tbody>
+            </table></div>
+          </section>
+
+          <section class="panel" aria-labelledby="h-act">
+            <div class="ph"><h2 id="h-act">Activity</h2></div>
+            <div class="tl">
+              <div class="ev">
+                <span class="eic" aria-hidden="true">RM</span>
+                <div><p><b>Rose M.</b> started soft launch for Germany</p><time datetime="2026-10-14T09:41">14 Oct · 09:41</time></div>
+              </div>
+              <div class="ev">
+                <span class="eic eic--sys" aria-hidden="true">SYS</span>
+                <div><p><span class="sr">System event: </span><span style="color:var(--muted)">System</span> moved stage to <b>Live / fieldwork</b></p><time datetime="2026-10-14T09:41">14 Oct · 09:41</time></div>
+              </div>
+              <div class="ev">
+                <span class="eic" aria-hidden="true">JA</span>
+                <div><p><b>James A.</b> approved quotas</p><time datetime="2026-10-13T16:08">13 Oct · 16:08</time></div>
+              </div>
+              <div class="ev">
+                <span class="eic" aria-hidden="true">PK</span>
+                <div><p><b>Priya K.</b> recorded client approval for the UK link</p><time datetime="2026-10-11T10:22">11 Oct · 10:22</time></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="col">
+          <section class="panel" aria-labelledby="h-own">
+            <div class="ph"><h2 id="h-own">Owners</h2><span class="n">4</span></div>
+            <div class="people">
+              <div class="person"><span class="av" aria-hidden="true">RM</span><div><b>Rose M.</b><span>Project manager</span></div><span class="pill pill--grey pill--xs">You</span></div>
+              <div class="person"><span class="av" aria-hidden="true">PK</span><div><b>Priya K.</b><span>Scripter</span></div><span></span></div>
+              <div class="person"><span class="av" aria-hidden="true">JA</span><div><b>James A.</b><span>QA</span></div><span></span></div>
+              <div class="person"><span class="av" aria-hidden="true">TN</span><div><b>Tom N.</b><span>Data processing</span></div><span></span></div>
+              <button class="btn" style="width:100%;margin-top:8px">Assign someone</button>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="h-chk">
+            <div class="ph"><h2 id="h-chk">Quota checklist</h2><div class="right"><span class="n">3 of 5</span></div></div>
+            <div class="check">
+              <div class="bar" aria-hidden="true"><i style="width:60%"></i></div>
+              <fieldset>
+                <legend>Quota setup — 3 of 5 done</legend>
+                <div class="item"><input type="checkbox" id="q1" checked><label for="q1">Age and gender quotas set</label></div>
+                <div class="item"><input type="checkbox" id="q2" checked><label for="q2">Region quotas match census</label></div>
+                <div class="item"><input type="checkbox" id="q3" checked><label for="q3">Soft launch size agreed</label></div>
+                <div class="item"><input type="checkbox" id="q4"><label for="q4">Interlocking quotas verified</label></div>
+                <div class="item"><input type="checkbox" id="q5"><label for="q5">Panel criteria confirmed with supplier</label></div>
+              </fieldset>
+              <p class="note">A reminder, not a gate — you can advance with items open.</p>
+            </div>
+          </section>
+
+          <section class="panel" aria-labelledby="h-det">
+            <div class="ph"><h2 id="h-det">Details</h2></div>
+            <dl class="kv">
+              <dt>Client</dt><dd>Unilever</dd>
+              <dt>Survey type</dt><dd>Nat Rep multi-country</dd>
+              <dt>Target</dt><dd class="mono">1,500</dd>
+              <dt>Soft launch</dt><dd class="mono">150</dd>
+              <dt>Merged file</dt><dd>Required</dd>
+              <dt>Panel criteria</dt><dd class="unset">Not set</dd>
+              <dt>Field ends</dt><dd class="mono">22 Oct</dd>
+              <dt>Created</dt><dd class="mono">2 Oct</dd>
+            </dl>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1060}}'>
+class Component extends DCLogic { renderVals(){ return {}; } }
+</script>
+<script>
+(function(){
+  const root=document.documentElement;
+  const saved=localStorage.getItem('pt-theme');
+  if(saved==='dark'||saved==='light') root.dataset.theme=saved;
+  else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme='dark';
+  const paint=()=>document.querySelectorAll('[data-theme-toggle]').forEach(b=>{
+    const dark=root.dataset.theme==='dark';
+    b.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+    b.innerHTML=dark
+      ?'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+      :'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M20 15.2A8.5 8.5 0 1 1 8.8 4a7 7 0 0 0 11.2 11.2Z"/></svg>';
+  });
+  paint();
+  document.addEventListener('click',e=>{
+    if(e.target.closest('[data-theme-toggle]')){
+      root.dataset.theme=root.dataset.theme==='dark'?'light':'dark';
+      localStorage.setItem('pt-theme',root.dataset.theme);
+      paint();
+    }
+  });
+})();
+</script>
+</body>
+</html>
