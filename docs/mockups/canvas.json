@@ -1,0 +1,136 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "is_interactive": true,
+      "title": "Dashboard — desktop",
+      "w": 1360,
+      "x": 0,
+      "y": 0
+    },
+    "MobileQueue.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "Project pool — mobile",
+      "w": 390,
+      "x": 2880,
+      "y": 0
+    },
+    "ProjectDetail.dc.html": {
+      "expand": "fill",
+      "h": 1040,
+      "is_interactive": true,
+      "title": "Project detail — desktop",
+      "w": 1360,
+      "x": 1440,
+      "y": 0
+    },
+    "DashboardV2.dc.html": {
+      "expand": "fill",
+      "h": 1180,
+      "is_interactive": true,
+      "title": "v2 — Dashboard, three bands",
+      "w": 1360,
+      "x": 0,
+      "y": 1700
+    },
+    "ProjectDetailV2.dc.html": {
+      "expand": "fill",
+      "h": 1060,
+      "is_interactive": true,
+      "title": "v2 — Project detail",
+      "w": 1360,
+      "x": 1440,
+      "y": 1700
+    },
+    "MobileQueueV2.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "title": "v2 — Project pool, mobile",
+      "w": 390,
+      "x": 2880,
+      "y": 1700
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-15T19:40:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "hdr": {
+      "kind": "title1",
+      "maxW": 3270,
+      "text": "Project Tracker — design system demo",
+      "w": 240,
+      "x": 0,
+      "y": -281
+    },
+    "n1": {
+      "fill": "gray",
+      "text": "Amber appears only on the sidebar active indicator and focus rings. Status uses green / amber / red / grey, always with a label — never colour alone.",
+      "w": 560,
+      "x": 0,
+      "y": 960
+    },
+    "n2": {
+      "fill": "gray",
+      "text": "Pipeline uses the real Stage enum, rendered through one label map. Current stage carries the most visual weight; the page leads with the action the signed-in PM can actually take.",
+      "w": 560,
+      "x": 1440,
+      "y": 1100
+    },
+    "n3": {
+      "fill": "gray",
+      "text": "Mobile is designed, not shrunk: stacked rows keep the name / RDR+client / status / owner / delivery hierarchy, with a drawer trigger and 44px targets.",
+      "w": 390,
+      "x": 2880,
+      "y": 904
+    },
+    "hdr2": {
+      "kind": "title1",
+      "maxW": 3270,
+      "text": "v2 — after the audit",
+      "w": 240,
+      "x": 0,
+      "y": 1420
+    },
+    "v1": {
+      "fill": "gray",
+      "text": "Three bands: Today (what must clear), Next two days (what lands, with the reason it needs acting on now), then quieter context. Metrics demoted out of the hero. No greeting, no eyebrow, no trend chips. Corrected tokens: --faint, three status hues and --accent-strong now pass AA. One global focus ring. Shadows gone from panels. Hover is background only.",
+      "w": 640,
+      "x": 0,
+      "y": 2900
+    },
+    "v2": {
+      "fill": "gray",
+      "text": "Markets is a real table with column headers. Pipeline is an ordered list with aria-current and per-state dot shapes, including blocked and not-applicable. Checklist uses real checkboxes in a fieldset. Nulls render as 'Not set' rather than being absent.",
+      "w": 640,
+      "x": 1440,
+      "y": 2780
+    },
+    "v3": {
+      "fill": "gray",
+      "text": "44px targets throughout, one primary button (amber, not near-black), status rail takes the row's own hue, and the filter chip is near-black when selected so filled amber stays reserved for actions. Includes the designed empty state.",
+      "w": 390,
+      "x": 2880,
+      "y": 2564
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "ProjectDetail.dc.html",
+    "MobileQueue.dc.html",
+    "DashboardV2.dc.html",
+    "ProjectDetailV2.dc.html",
+    "MobileQueueV2.dc.html"
+  ],
+  "pages": [],
+  "title": "Project Tracker UI demo"
+}
