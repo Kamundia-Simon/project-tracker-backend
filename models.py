@@ -1,4 +1,4 @@
-"""SQLAlchemy models for every Phase 1 table — see docs/architecture.md §8 for the schema this implements."""
+"""SQLAlchemy models for every table."""
 
 import enum
 from datetime import datetime
@@ -16,8 +16,9 @@ from sqlalchemy import (
     Text,
     UniqueConstraint,
     func,
+    true,
 )
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 
 from database import Base
 
@@ -35,6 +36,22 @@ class Stage(str, enum.Enum):
     ON_HOLD = "ON_HOLD"
 
 
+class MarketStatus(str, enum.Enum):
+    PENDING = "PENDING"
+    TRANSLATION = "TRANSLATION"
+    QA = "QA"
+    CLIENT_REVIEW = "CLIENT_REVIEW"
+    APPROVED = "APPROVED"
+    LIVE = "LIVE"
+    DELIVERED = "DELIVERED"
+
+
+class ChangeRequestStatus(str, enum.Enum):
+    OPEN = "OPEN"
+    IN_PROGRESS = "IN_PROGRESS"
+    COMPLETED = "COMPLETED"
+    
+    
 class User(Base):
     """A person who can log in — PM, Scripter, QA, DP, or Viewer."""
 
@@ -45,9 +62,11 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True)
     name: Mapped[str] = mapped_column(String(255))
     timezone: Mapped[str] = mapped_column(String(64), default="Europe/London")
+    # Key into the frontend's preset avatar set, not an uploaded file.
+    avatar: Mapped[str | None] = mapped_column(String(32), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     is_head_pm_override: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
 
 
 class Role(Base):
@@ -93,7 +112,7 @@ class ProjectAssignment(Base):
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"), index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
     role_id: Mapped[int] = mapped_column(ForeignKey("roles.id"))
-    assigned_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    assigned_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
     unassigned_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
 
@@ -106,10 +125,15 @@ class Project(Base):
     rdr_number: Mapped[str] = mapped_column(String(32), unique=True, index=True)
     survey_name: Mapped[str] = mapped_column(String(255))
     client_id: Mapped[int] = mapped_column(ForeignKey("clients.id"), index=True)
+    client: Mapped["Client"] = relationship(lazy="joined")
     panel_criteria: Mapped[str | None] = mapped_column(Text, nullable=True)
-
+    survey_type: Mapped[str | None] = mapped_column(String(64), nullable=True, index=True)
     stage: Mapped[Stage] = mapped_column(Enum(Stage), index=True, default=Stage.PM_ASSIGNMENT)
+    
     sub_status: Mapped[str | None] = mapped_column(String(32), nullable=True)
+
+    # The scripter's one estimate covering scripting AND QA: when the client will have the link.
+    client_link_eta: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     final_delivery_date: Mapped[datetime | None] = mapped_column(DateTime, nullable=True, index=True)
     final_delivery_date_locked: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -123,10 +147,11 @@ class Project(Base):
     qa_checklist_state: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     quota_checklist_state: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     final_qa_checklist_state: Mapped[dict | None] = mapped_column(JSON, nullable=True)
-
+    merged_delivery_required: Mapped[bool] = mapped_column(Boolean, default=True, server_default=true())
+        
     created_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp(), onupdate=func.utc_timestamp())
 
 
 class StageTransition(Base):
@@ -144,7 +169,7 @@ class StageTransition(Base):
     from_sub_status: Mapped[str | None] = mapped_column(String(32), nullable=True)
     to_sub_status: Mapped[str | None] = mapped_column(String(32), nullable=True)
     changed_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    changed_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    changed_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
     reason: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
@@ -156,7 +181,7 @@ class Revision(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"), index=True)
     round_number: Mapped[int] = mapped_column()
-    requested_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    requested_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
     summary: Mapped[str] = mapped_column(Text)
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
@@ -170,7 +195,7 @@ class Comment(Base):
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"), index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     body: Mapped[str] = mapped_column(Text)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
 
 
 class Notification(Base):
@@ -187,7 +212,7 @@ class Notification(Base):
     type: Mapped[str] = mapped_column(String(64))
     message: Mapped[str] = mapped_column(Text)
     is_read: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
 
 
 class FieldworkSnapshot(Base):
@@ -200,7 +225,7 @@ class FieldworkSnapshot(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
-    captured_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    captured_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
     completes: Mapped[int] = mapped_column()
     target: Mapped[int] = mapped_column()
     percent_complete: Mapped[Decimal] = mapped_column(Numeric(5, 1))
@@ -223,4 +248,48 @@ class AuditLog(Base):
     old_value: Mapped[str | None] = mapped_column(Text, nullable=True)
     new_value: Mapped[str | None] = mapped_column(Text, nullable=True)
     reason: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
+    
+class ProjectMarket(Base):
+    """One country on a multi-country survey — a tracking record with its own dates, not a workflow of its own."""
+
+    __tablename__ = "project_markets"
+    __table_args__ = (
+        UniqueConstraint("project_id", "country", name="uq_project_markets_project_country"),
+        Index("ix_project_markets_project_status", "project_id", "status"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
+    country: Mapped[str] = mapped_column(String(64))
+    language: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    is_primary: Mapped[bool] = mapped_column(Boolean, default=False)
+    status: Mapped[MarketStatus] = mapped_column(Enum(MarketStatus), default=MarketStatus.PENDING)
+    due_date: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    live_start_date: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    delivered_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp(), onupdate=func.utc_timestamp())
+
+
+class ChangeRequest(Base):
+    """A post-delivery ask against a finished project — tracked beside the stage machinery, never inside it."""
+
+    __tablename__ = "change_requests"
+    __table_args__ = (
+        Index("ix_change_requests_project_status", "project_id", "status"),
+        Index("ix_change_requests_assigned_status", "assigned_to", "status"),
+    )
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"), nullable=False)
+    raised_by: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
+    title: Mapped[str] = mapped_column(String(120), nullable=False)
+    description: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[ChangeRequestStatus] = mapped_column(
+        Enum(ChangeRequestStatus), default=ChangeRequestStatus.OPEN, nullable=False
+    )
+    assigned_to: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
+    due_date: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.utc_timestamp(), nullable=False)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
