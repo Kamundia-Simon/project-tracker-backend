@@ -6,7 +6,13 @@ import { ArcAccent, RingPattern } from "@/components/landing/ArcAccent";
 import { FloatingCard } from "@/components/landing/FloatingCard";
 import { HeroShapes } from "@/components/landing/HeroShapes";
 
-function Bar({ value, tone = "accent" }: { value: number; tone?: "accent" | "ok" }) {
+function Bar({
+  value,
+  tone = "accent",
+}: {
+  value: number;
+  tone?: "accent" | "ok";
+}) {
   return (
     <span className="block h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3">
       <span
@@ -22,11 +28,18 @@ function Bar({ value, tone = "accent" }: { value: number; tone?: "accent" | "ok"
  * docs/mockups: what is done, where the project is now, what is still ahead.
  * Shows position in a sequence, not a percentage of anything.
  */
-function StageRail({ steps }: { steps: Array<{ label: string; state: "done" | "current" | "todo" }> }) {
+function StageRail({
+  steps,
+}: {
+  steps: Array<{ label: string; state: "done" | "current" | "todo" }>;
+}) {
   return (
     <ol className="mt-2.5 flex items-center">
       {steps.map((step, i) => (
-        <li key={step.label} className="flex flex-1 items-center last:flex-none">
+        <li
+          key={step.label}
+          className="flex flex-1 items-center last:flex-none"
+        >
           <span
             title={step.label}
             className={
@@ -140,14 +153,15 @@ export function Landing() {
         <div className="max-w-[560px]">
           <h1 className="text-[38px] font-semibold leading-[1.06] tracking-[-0.035em] text-ink sm:text-[52px] lg:text-[60px]">
             Every project. Every task.
-            <span className="mt-2 block font-normal text-accent-strong">
-              Moving <span className="font-semibold text-ink">3Gem</span> forward.
+            <span className="mt-2 block font-normal text-[#a37800]">
+              Moving <span className="font-semibold text-ink">3Gem</span>{" "}
+              forward.
             </span>
           </h1>
 
           <p className="mt-6 max-w-[460px] text-[14.5px] leading-relaxed text-ink-muted">
-            One shared workspace to organise projects, track tasks, manage milestones, and keep the
-            3Gem team aligned on delivery.
+            One shared workspace to organise projects, track tasks, manage
+            milestones, and keep the 3Gem team aligned on delivery.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
@@ -167,14 +181,22 @@ export function Landing() {
             </Link>
           </div>
 
-          <p className="mt-5 text-[12px] text-ink-faint">Collaborative workspace for the 3Gem team.</p>
+          <p className="mt-5 text-[12px] text-ink-faint">
+            Collaborative workspace for the 3Gem team.
+          </p>
         </div>
 
         {/* Right — the illustration */}
         <div className="relative mx-auto w-full max-w-[460px] space-y-4 lg:h-[560px] lg:max-w-none lg:space-y-0">
           <FloatingCard
             title="My tasks"
-            icon={<CheckCircle size={15} weight="duotone" className="text-accent-strong" />}
+            icon={
+              <CheckCircle
+                size={15}
+                weight="duotone"
+                className="text-accent-strong"
+              />
+            }
             className="w-full lg:absolute lg:right-0 lg:top-0 lg:w-[16.5rem] lg:-rotate-[3deg]"
           >
             <ul className="space-y-3">
@@ -186,14 +208,26 @@ export function Landing() {
                 <li key={label as string} className="space-y-1.5">
                   <div className="flex items-start gap-2">
                     {done ? (
-                      <CheckCircle size={14} weight="fill" className="mt-px shrink-0 text-ok" />
+                      <CheckCircle
+                        size={14}
+                        weight="fill"
+                        className="mt-px shrink-0 text-ok"
+                      />
                     ) : (
-                      <Circle size={14} className="mt-px shrink-0 text-line-strong" />
+                      <Circle
+                        size={14}
+                        className="mt-px shrink-0 text-line-strong"
+                      />
                     )}
-                    <span className="text-[12.5px] leading-snug text-ink">{label}</span>
+                    <span className="text-[12.5px] leading-snug text-ink">
+                      {label}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 pl-5">
-                    <Bar value={value as number} tone={done ? "ok" : "accent"} />
+                    <Bar
+                      value={value as number}
+                      tone={done ? "ok" : "accent"}
+                    />
                     <span className="w-7 text-right font-mono text-[10.5px] tabular-nums text-ink-faint">
                       {value}%
                     </span>
@@ -209,7 +243,9 @@ export function Landing() {
               <Timer size={12} weight="duotone" />
               Upcoming milestone
             </span>
-            <span className="mt-0.5 block text-[12.5px] font-semibold text-ink">Project launch</span>
+            <span className="mt-0.5 block text-[12.5px] font-semibold text-ink">
+              Project launch
+            </span>
             <StageRail
               steps={[
                 { label: "Scripting", state: "done" },
@@ -219,7 +255,9 @@ export function Landing() {
                 { label: "Live", state: "todo" },
               ]}
             />
-            <span className="mt-2 block text-[10.5px] text-ink-faint">Quotas &middot; next: Live</span>
+            <span className="mt-2 block text-[10.5px] text-ink-faint">
+              Quotas &middot; next: Live
+            </span>
           </FloatingCard>
 
           <FloatingCard
@@ -228,14 +266,18 @@ export function Landing() {
           >
             {/* Bars are scaled against the busiest team, so four reads as full and two as half. */}
             <ul className="space-y-3">
-              {([
-                ["Scripting team", 4],
-                ["QA team", 2],
-                ["Data team", 4],
-              ] as const).map(([label, count]) => (
+              {(
+                [
+                  ["Scripting team", 4],
+                  ["QA team", 2],
+                  ["Data team", 4],
+                ] as const
+              ).map(([label, count]) => (
                 <li key={label} className="space-y-1.5">
                   <div className="flex items-baseline justify-between gap-2">
-                    <span className="truncate text-[12.5px] text-ink">{label}</span>
+                    <span className="truncate text-[12.5px] text-ink">
+                      {label}
+                    </span>
                     <span className="font-mono text-[10.5px] tabular-nums text-ink-faint">
                       {count} projects
                     </span>

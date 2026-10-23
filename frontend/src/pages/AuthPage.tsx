@@ -1,5 +1,6 @@
-import { SignIn, SignUp } from "@clerk/react";
+import { ClerkLoaded, ClerkLoading, SignIn, SignUp } from "@clerk/react";
 import { Link } from "react-router-dom";
+import { BrandLoader } from "@/components/BrandLoader";
 
 /**
  * Clerk's own sign-in / sign-up, framed by the landing page's shell.
@@ -21,13 +22,37 @@ export function AuthPage({ mode }: { mode: "sign-in" | "sign-up" }) {
         </span>
       </Link>
 
-      {mode === "sign-in" ? (
-        <SignIn routing="path" path="/sign-in" signUpUrl="/sign-up" forceRedirectUrl="/dashboard" />
-      ) : (
-        <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" forceRedirectUrl="/dashboard" />
-      )}
+      <ClerkLoading>
+        <div className="flex min-h-[420px] items-center justify-center">
+          <BrandLoader
+            size={40}
+            label={mode === "sign-in" ? "Loading sign in" : "Loading sign up"}
+          />
+        </div>
+      </ClerkLoading>
 
-      <Link to="/" className="rounded-lg text-[12.5px] text-ink-faint transition-colors hover:text-ink">
+      <ClerkLoaded>
+        {mode === "sign-in" ? (
+          <SignIn
+            routing="path"
+            path="/sign-in"
+            signUpUrl="/sign-up"
+            forceRedirectUrl="/dashboard"
+          />
+        ) : (
+          <SignUp
+            routing="path"
+            path="/sign-up"
+            signInUrl="/sign-in"
+            forceRedirectUrl="/dashboard"
+          />
+        )}
+      </ClerkLoaded>
+
+      <Link
+        to="/"
+        className="rounded-lg text-[12.5px] text-ink-faint transition-colors hover:text-ink"
+      >
         Back to the hub
       </Link>
     </div>
