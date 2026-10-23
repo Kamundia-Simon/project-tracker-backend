@@ -1,0 +1,207 @@
+@import "tw-animate-css";
+@import "@fontsource-variable/inter";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .theme {
+    --font-heading: var(--font-sans);
+    --font-sans: 'Inter Variable', sans-serif;
+  }
+  :root {
+    --background: 1 0 0;
+    --foreground: 0.147 0.004 49.3;
+    --card: 1 0 0;
+    --card-foreground: 0.147 0.004 49.3;
+    --popover: 1 0 0;
+    --popover-foreground: 0.147 0.004 49.3;
+    --primary: 0.852 0.199 91.936;
+    --primary-foreground: 0.421 0.095 57.708;
+    --secondary: 0.967 0.001 286.375;
+    --secondary-foreground: 0.21 0.006 285.885;
+    --muted: 0.96 0.002 17.2;
+    --muted-foreground: 0.547 0.021 43.1;
+    --accent: 0.96 0.002 17.2;
+    --accent-foreground: 0.214 0.009 43.1;
+    --destructive: 0.577 0.245 27.325;
+    --border: oklch(0.922 0.005 34.3);
+    --input: oklch(0.922 0.005 34.3);
+    --ring: 0.714 0.014 41.2;
+    --chart-1: 0.868 0.007 39.5;
+    --chart-2: 0.547 0.021 43.1;
+    --chart-3: 0.438 0.017 39.3;
+    --chart-4: 0.367 0.016 35.7;
+    --chart-5: 0.268 0.011 36.5;
+    --radius: 0.875rem;
+    --sidebar: 0.986 0.002 67.8;
+    --sidebar-foreground: 0.147 0.004 49.3;
+    --sidebar-primary: 0.681 0.162 75.834;
+    --sidebar-primary-foreground: 0.987 0.026 102.212;
+    --sidebar-accent: 0.96 0.002 17.2;
+    --sidebar-accent-foreground: 0.214 0.009 43.1;
+    --sidebar-border: oklch(0.922 0.005 34.3);
+    --sidebar-ring: 0.714 0.014 41.2;
+  }
+  .dark {
+    --background: 0.147 0.004 49.3;
+    --foreground: 0.986 0.002 67.8;
+    --card: 0.214 0.009 43.1;
+    --card-foreground: 0.986 0.002 67.8;
+    --popover: 0.214 0.009 43.1;
+    --popover-foreground: 0.986 0.002 67.8;
+    --primary: 0.795 0.184 86.047;
+    --primary-foreground: 0.421 0.095 57.708;
+    --secondary: 0.274 0.006 286.033;
+    --secondary-foreground: 0.985 0 0;
+    --muted: 0.268 0.011 36.5;
+    --muted-foreground: 0.714 0.014 41.2;
+    --accent: 0.268 0.011 36.5;
+    --accent-foreground: 0.986 0.002 67.8;
+    --destructive: 0.704 0.191 22.216;
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: 0.547 0.021 43.1;
+    --chart-1: 0.868 0.007 39.5;
+    --chart-2: 0.547 0.021 43.1;
+    --chart-3: 0.438 0.017 39.3;
+    --chart-4: 0.367 0.016 35.7;
+    --chart-5: 0.268 0.011 36.5;
+    --sidebar: 0.214 0.009 43.1;
+    --sidebar-foreground: 0.986 0.002 67.8;
+    --sidebar-primary: 0.795 0.184 86.047;
+    --sidebar-primary-foreground: 0.987 0.026 102.212;
+    --sidebar-accent: 0.268 0.011 36.5;
+    --sidebar-accent-foreground: 0.986 0.002 67.8;
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: 0.547 0.021 43.1;
+  }
+  /* 3Gem design tokens — docs/design-tokens.md is the source of truth for these values.
+     Bare OKLCH components, mapped to Tailwind colours in tailwind.config.js. */
+  :root {
+    --ink: 0.2038 0.0039 106.74;
+    --ink-muted: 0.4945 0.0078 106.68;
+    --ink-faint: 0.5433 0.0091 106.7;
+
+    --canvas: 0.9726 0.0026 106.45;
+    --surface: 1 0 89.88;
+    --surface-2: 0.9845 0.0026 106.45;
+    --surface-3: 0.9573 0.004 106.47;
+
+    --line: 0.9175 0.0067 106.53;
+    --line-strong: 0.868 0.0095 106.6;
+
+    --amber: 0.8535 0.1739 89.96;
+    --amber-strong: 0.5304 0.1108 77.38;
+    --amber-ink: 0.2099 0.0429 89.63;
+
+    --ok: 0.492 0.1003 160.16;
+    --warn: 0.5066 0.1122 66.74;
+    --danger: 0.5364 0.1677 19.52;
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ink: 0.9598 0.0066 106.52;
+    --ink-muted: 0.7578 0.0126 106.7;
+    --ink-faint: 0.6341 0.0132 106.77;
+
+    --canvas: 0.1768 0.004 106.8;
+    --surface: 0.2126 0.0038 106.72;
+    --surface-2: 0.2339 0.0056 106.83;
+    --surface-3: 0.2671 0.0072 106.88;
+
+    --line: 0.3078 0.007 106.8;
+    --line-strong: 0.358 0.0101 106.9;
+
+    --amber: 0.8819 0.1534 90.23;
+    --amber-strong: 0.8412 0.1326 87.08;
+
+    --ok: 0.713 0.1177 160.8;
+    --warn: 0.7637 0.1249 78.67;
+    --danger: 0.6678 0.1449 17.04;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+
+  /* Browser surfaces belong to the palette too. */
+  ::selection {
+    background: oklch(var(--amber) / 0.32);
+    color: oklch(var(--ink));
+  }
+  :focus-visible {
+    outline: 2px solid oklch(var(--amber-strong));
+    outline-offset: 2px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(var(--line-strong)) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(var(--line-strong));
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background-clip: content-box;
+  }
+}
+
+@layer utilities {
+  /* The hero pattern drifts diagonally — slow enough to read as depth, not motion. */
+  @keyframes drift-diagonal {
+    from {
+      transform: translate3d(-0.7%, 0.8%, 0) rotate(-0.2deg);
+    }
+    to {
+      transform: translate3d(0.8%, -0.7%, 0) rotate(0.2deg);
+    }
+  }
+  .animate-drift {
+    animation: drift-diagonal 24s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+
+  /* Travelling highlight through the brand dots — cadence from the reference clip. */
+  @keyframes dot-wave {
+    0%,
+    62%,
+    100% {
+      transform: scale(0.62);
+      opacity: 0.32;
+    }
+    24%,
+    38% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .animate-dot-wave {
+    animation: dot-wave 1.1s ease-in-out infinite both;
+  }
+  /* Fades the pattern into the page where it meets the text, so the two sides blend. */
+  .mask-fade-left {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 22%, black 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
