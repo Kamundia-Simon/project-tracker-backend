@@ -21,7 +21,7 @@ export function storedTheme(): Theme | null {
 }
 
 export function resolveTheme(): Theme {
-  return storedTheme() ?? systemTheme();
+  return storedTheme() ?? "light";
 }
 
 export function applyTheme(theme: Theme) {

@@ -3,8 +3,11 @@ import { createRoot } from "react-dom/client";
 import { ClerkProvider } from "@clerk/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
+import { initTheme } from "@/lib/theme";
 import "./index.css";
 import App from "./App.tsx";
+
+initTheme();
 
 const queryClient = new QueryClient({
   defaultOptions: {
