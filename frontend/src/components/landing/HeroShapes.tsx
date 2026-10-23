@@ -16,7 +16,7 @@ export function HeroShapes({ className = "" }: { className?: string }) {
       {/* Widest, faintest layer — sets the silhouette of the whole right side. */}
       <path
         d="M214 -40c96 158-40 268 56 404s318 158 348 348c12 76-8 148-38 188h180V-40Z"
-        fill="oklch(var(--amber) / 0.10)"
+        fill="oklch(var(--accent) / 0.10)"
       />
 
       {/* Black ribbon, furthest back of the two solids: the depth layer. */}
@@ -28,7 +28,7 @@ export function HeroShapes({ className = "" }: { className?: string }) {
       {/* Amber ribbon, offset from the black one so both edges stay visible. */}
       <path
         d="M470 -40c-84 162 60 266-20 408-74 132-100 318-40 532h128c-66-216-34-392 40-526 80-146-62-252 22-414Z"
-        fill="oklch(var(--amber))"
+        fill="oklch(var(--accent))"
       />
 
       {/* A second, smaller black curl near the top right for asymmetry. */}
@@ -41,10 +41,10 @@ export function HeroShapes({ className = "" }: { className?: string }) {
       <path
         d="M90 620c156-62 258 40 310 152 30 66 78 116 144 144"
         fill="none"
-        stroke="oklch(var(--amber) / 0.5)"
+        stroke="oklch(var(--accent) / 0.5)"
         strokeWidth="2"
       />
-      <circle cx="90" cy="620" r="5" fill="oklch(var(--amber))" />
+      <circle cx="90" cy="620" r="5" fill="oklch(var(--accent))" />
     </svg>
   );
 }

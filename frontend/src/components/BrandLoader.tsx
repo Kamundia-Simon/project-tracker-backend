@@ -1,11 +1,5 @@
 import { cn } from "@/lib/utils";
 
-/**
- * The brand's four dots as the loading indicator — one amber, three ink, no
- * background. A highlight travels through them on a ~1.1s cycle, the cadence read
- * off the reference clip (docs/assets/loading-animation.mp4, a guide only; it is not
- * shipped). Reserved for loading, never static decoration.
- */
 export function BrandLoader({
   size = 32,
   label = "Loading",
@@ -20,14 +14,19 @@ export function BrandLoader({
 
   // Reading order in the grid; the travelling highlight runs clockwise through them.
   const dots = [
-    { tone: "amber", delay: 0 },
+    { tone: "accent", delay: 0 },
     { tone: "ink", delay: 0.14 },
     { tone: "ink", delay: 0.42 },
     { tone: "ink", delay: 0.28 },
   ] as const;
 
   return (
-    <span role="status" aria-live="polite" className={cn("inline-flex", className)}>
+    <span
+      role="status"
+      aria-live="polite"
+      data-motion="essential"
+      className={cn("inline-flex", className)}
+    >
       <span
         className="grid grid-cols-2"
         style={{ gap, width: size, height: size }}
@@ -38,7 +37,7 @@ export function BrandLoader({
             key={i}
             className={cn(
               "animate-dot-wave block rounded-full",
-              d.tone === "amber" ? "bg-amber" : "bg-ink",
+              d.tone === "accent" ? "bg-accent" : "bg-ink",
             )}
             style={{ width: dot, height: dot, animationDelay: `${d.delay}s` }}
           />

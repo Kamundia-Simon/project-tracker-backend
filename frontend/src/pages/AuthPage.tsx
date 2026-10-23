@@ -11,7 +11,7 @@ export function AuthPage({ mode }: { mode: "sign-in" | "sign-up" }) {
     <div className="flex min-h-svh flex-col items-center justify-center gap-7 bg-canvas p-5">
       <Link to="/" className="flex items-center gap-2.5 rounded-lg">
         <span className="grid grid-cols-2 gap-[3px]" aria-hidden="true">
-          <i className="block size-[7px] rounded-full bg-amber" />
+          <i className="block size-[7px] rounded-full bg-accent" />
           <i className="block size-[7px] rounded-full bg-ink" />
           <i className="block size-[7px] rounded-full bg-ink" />
           <i className="block size-[7px] rounded-full bg-ink" />

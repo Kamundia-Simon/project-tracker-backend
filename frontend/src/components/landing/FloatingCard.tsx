@@ -22,7 +22,7 @@ export function FloatingCard({ title, icon, className, children }: FloatingCardP
         "shadow-[0_20px_45px_-28px_oklch(var(--ink)/0.45)]",
         // Decorative hover: the card lifts toward the reader and warms its edge.
         "transition-[transform,box-shadow,border-color] duration-200 ease-out",
-        "hover:-translate-y-1 hover:border-amber/50 hover:shadow-[0_28px_60px_-28px_oklch(var(--ink)/0.5)]",
+        "hover:-translate-y-1 hover:border-accent/50 hover:shadow-[0_28px_60px_-28px_oklch(var(--ink)/0.5)]",
         className,
       )}
     >

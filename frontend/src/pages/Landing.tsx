@@ -6,11 +6,11 @@ import { ArcAccent, RingPattern } from "@/components/landing/ArcAccent";
 import { FloatingCard } from "@/components/landing/FloatingCard";
 import { HeroShapes } from "@/components/landing/HeroShapes";
 
-function Bar({ value, tone = "amber" }: { value: number; tone?: "amber" | "ok" }) {
+function Bar({ value, tone = "accent" }: { value: number; tone?: "accent" | "ok" }) {
   return (
     <span className="block h-1.5 flex-1 overflow-hidden rounded-full bg-surface-3">
       <span
-        className={`block h-full rounded-full ${tone === "ok" ? "bg-ok" : "bg-amber"}`}
+        className={`block h-full rounded-full ${tone === "ok" ? "bg-ok" : "bg-accent"}`}
         style={{ width: `${value}%` }}
       />
     </span>
@@ -33,7 +33,7 @@ function StageRail({ steps }: { steps: Array<{ label: string; state: "done" | "c
               step.state === "done"
                 ? "block size-2 rounded-full bg-ok"
                 : step.state === "current"
-                  ? "block size-2.5 rounded-full bg-amber ring-4 ring-[oklch(var(--amber)/0.22)]"
+                  ? "block size-2.5 rounded-full bg-accent ring-4 ring-[oklch(var(--accent)/0.22)]"
                   : "block size-2 rounded-full border-2 border-line-strong bg-surface"
             }
           />
@@ -54,11 +54,11 @@ export function Landing() {
   const { isSignedIn } = useAuth();
 
   return (
-    <div className="relative min-h-svh overflow-hidden bg-[linear-gradient(135deg,oklch(var(--surface))_0%,oklch(var(--surface-2))_52%,oklch(var(--amber)/0.07)_100%)]">
+    <div className="relative min-h-svh overflow-hidden bg-[linear-gradient(135deg,oklch(var(--surface))_0%,oklch(var(--surface-2))_52%,oklch(var(--accent)/0.07)_100%)]">
       {/* Warm glow behind the headline so the colour reaches the text side too. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-[12%] top-[6%] h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle,oklch(var(--amber)/0.13)_0%,transparent_68%)] blur-[6px]"
+        className="pointer-events-none absolute -left-[12%] top-[6%] h-[640px] w-[640px] rounded-full bg-[radial-gradient(circle,oklch(var(--accent)/0.13)_0%,transparent_68%)] blur-[6px]"
       />
       {/* Shapes drift diagonally and fade into the page where they meet the text. */}
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[52%] overflow-hidden lg:block">
@@ -80,7 +80,7 @@ export function Landing() {
         className="pointer-events-none absolute -left-[11%] top-[23%] hidden h-[170px] w-[340px] lg:block"
       />
       <ArcAccent
-        tone="amber"
+        tone="accent"
         length="long"
         className="pointer-events-none absolute -top-[13%] left-[13%] hidden h-[180px] w-[360px] -rotate-[68deg] lg:block"
       />
@@ -91,7 +91,7 @@ export function Landing() {
         className="pointer-events-none absolute -bottom-[14%] left-[33%] hidden h-[170px] w-[340px] -rotate-[122deg] opacity-80 lg:block"
       />
       <ArcAccent
-        tone="amber"
+        tone="accent"
         length="medium"
         flip
         className="pointer-events-none absolute -left-[13%] top-[46%] hidden h-[150px] w-[300px] opacity-75 lg:block"
@@ -140,7 +140,7 @@ export function Landing() {
         <div className="max-w-[560px]">
           <h1 className="text-[38px] font-semibold leading-[1.06] tracking-[-0.035em] text-ink sm:text-[52px] lg:text-[60px]">
             Every project. Every task.
-            <span className="mt-2 block font-normal text-amber-strong">
+            <span className="mt-2 block font-normal text-accent-strong">
               Moving <span className="font-semibold text-ink">3Gem</span> forward.
             </span>
           </h1>
@@ -155,7 +155,7 @@ export function Landing() {
                 Until auth resolves, sign-in is the safe destination — it forwards on. */}
             <Link
               to={isSignedIn ? "/dashboard" : "/sign-in"}
-              className="inline-flex h-12 items-center justify-center rounded-xl bg-amber px-7 text-[15px] font-semibold text-amber-ink transition-[filter,transform] hover:brightness-[0.97] active:translate-y-px"
+              className="inline-flex h-12 items-center justify-center rounded-xl bg-accent px-7 text-[15px] font-semibold text-accent-ink transition-[filter,transform] hover:brightness-[0.97] active:translate-y-px"
             >
               {isSignedIn ? "Go to your dashboard" : "Log in to Project Hub"}
             </Link>
@@ -174,7 +174,7 @@ export function Landing() {
         <div className="relative mx-auto w-full max-w-[460px] space-y-4 lg:h-[560px] lg:max-w-none lg:space-y-0">
           <FloatingCard
             title="My tasks"
-            icon={<CheckCircle size={15} weight="duotone" className="text-amber-strong" />}
+            icon={<CheckCircle size={15} weight="duotone" className="text-accent-strong" />}
             className="w-full lg:absolute lg:right-0 lg:top-0 lg:w-[16.5rem] lg:-rotate-[3deg]"
           >
             <ul className="space-y-3">
@@ -193,7 +193,7 @@ export function Landing() {
                     <span className="text-[12.5px] leading-snug text-ink">{label}</span>
                   </div>
                   <div className="flex items-center gap-2 pl-5">
-                    <Bar value={value as number} tone={done ? "ok" : "amber"} />
+                    <Bar value={value as number} tone={done ? "ok" : "accent"} />
                     <span className="w-7 text-right font-mono text-[10.5px] tabular-nums text-ink-faint">
                       {value}%
                     </span>

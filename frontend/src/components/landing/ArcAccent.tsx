@@ -1,9 +1,3 @@
-/**
- * A hairline arc with a filled dot at its head — the motif the hero pattern ends on,
- * reused so the left half speaks the right half's language. Three genuinely different
- * curves rather than one path scaled: a short hook, a medium sweep, a long shallow run.
- * The head is always drawn; position each arc so it stays on screen.
- */
 const PATHS = {
   short: "M14 96C44 58 86 44 128 52",
   medium: "M14 96C58 30 132 20 196 58",
@@ -11,17 +5,17 @@ const PATHS = {
 } as const;
 
 export function ArcAccent({
-  tone = "amber",
+  tone = "accent",
   length = "medium",
   flip = false,
   className = "",
 }: {
-  tone?: "ink" | "amber";
+  tone?: "ink" | "accent";
   length?: keyof typeof PATHS;
   flip?: boolean;
   className?: string;
 }) {
-  const colour = tone === "amber" ? "oklch(var(--amber))" : "oklch(var(--ink))";
+  const colour = tone === "accent" ? "oklch(var(--accent))" : "oklch(var(--ink))";
   return (
     <svg
       // Flip via a class, not inline style: an inline transform would override any
@@ -39,7 +33,13 @@ export function ArcAccent({
         strokeLinecap="round"
         opacity={tone === "ink" ? 0.5 : 0.85}
       />
-      <circle cx="14" cy="96" r="7" fill={colour} opacity={tone === "ink" ? 0.55 : 1} />
+      <circle
+        cx="14"
+        cy="96"
+        r="7"
+        fill={colour}
+        opacity={tone === "ink" ? 0.55 : 1}
+      />
     </svg>
   );
 }
@@ -63,13 +63,13 @@ export function RingPattern({ className = "" }: { className?: string }) {
           cx="200"
           cy="200"
           r={r}
-          stroke="oklch(var(--amber))"
+          stroke="oklch(var(--accent))"
           strokeWidth={i === 1 ? 2.5 : 1.5}
           opacity={0.42 - i * 0.07}
         />
       ))}
-      <circle cx="200" cy="200" r="20" fill="oklch(var(--amber) / 0.16)" />
-      <circle cx="200" cy="200" r="6" fill="oklch(var(--amber) / 0.7)" />
+      <circle cx="200" cy="200" r="20" fill="oklch(var(--accent) / 0.16)" />
+      <circle cx="200" cy="200" r="6" fill="oklch(var(--accent) / 0.7)" />
     </svg>
   );
 }
