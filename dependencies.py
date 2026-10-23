@@ -6,9 +6,17 @@ from sqlalchemy.orm import Session
 from auth import authenticate
 from database import get_db
 from models import ProjectAssignment, Role, User, UserRole
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 
-def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
+security = HTTPBearer(auto_error=False)
+
+
+def get_current_user(
+    request: Request,
+    credentials: HTTPAuthorizationCredentials | None = Depends(security),
+    db: Session = Depends(get_db),
+) -> User:
     """Verify the Clerk token, then return the matching local users row, creating it on first login."""
     identity = authenticate(request)
 

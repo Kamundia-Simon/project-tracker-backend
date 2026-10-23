@@ -12,4 +12,5 @@ limiter = Limiter(
     key_func=get_remote_address,
     storage_uri=os.getenv("REDIS_URL", "redis://localhost:6379/0"),
     default_limits=["600/minute"],
+    swallow_errors=True,
 )
